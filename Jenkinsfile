@@ -1,23 +1,27 @@
 pipeline {
     agent any
+
     stages {
         stage('Build') {
             steps {
-                sh 'python3 -m venv venv'
-                sh '. venv/bin/activate && pip install --no-cache-dir -r requirements.txt'
+                sh 'python3 -m pip install --upgrade pip'
+                sh 'python3 -m pip install -r requirements.txt'
             }
         }
+
         stage('Test') {
             steps {
-                sh '. venv/bin/activate && pytest'
+                // Set PYTHONPATH to ensure the app module is found, then run pytest
+                sh 'PYTHONPATH=. python3 -m pytest'
             }
         }
+
         stage('Deploy') {
             steps {
-                // Note: This deployment method starts the application in the background on the Jenkins agent.
-                // For production environments, consider more robust deployment strategies (e.g., systemd, Docker, Kubernetes).
-                // Ensure any previously running instance on port 5000 is stopped before running this.
-                sh 'nohup . venv/bin/activate && python3 app.py &'
+                // Placeholder for deployment steps
+                // This could involve building a Docker image, pushing to a registry,
+                // deploying to a cloud provider (AWS, GCP, Azure), etc.
+                sh 'echo "Deploying the Python website..."'
             }
         }
     }
