@@ -1,9 +1,14 @@
 name: deploy sample
+
 on:
-  push:
-    branches:
-      - main
   workflow_dispatch:
+    inputs:
+      environments:
+        description: "testing"
+        type: choice
+        options:
+          - dev
+          - prod
 
 jobs:
   hello:
@@ -12,4 +17,4 @@ jobs:
     steps:
       - name: sample
         run: |
-          echo "Hi $hostname"
+          echo "Hi ${{ inputs.environments }}"
