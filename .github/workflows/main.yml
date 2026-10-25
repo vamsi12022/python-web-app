@@ -1,0 +1,15 @@
+name: deploy sample
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  hello:
+    runs-on: ubuntu-22.04
+
+    steps:
+      - name: sample
+        run: |
+          echo "Hi $hostname"
