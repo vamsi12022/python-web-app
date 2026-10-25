@@ -1,0 +1,44 @@
+name: matrix and path
+on:
+  push:
+    branches: [main]
+    paths:
+      - "test/**"
+  workflow_dispatch:
+    inputs:
+      env:
+        description: Chumma test
+        type: choice
+        options:
+          - dev
+          - prod
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        node: [22, 24]
+    runs-on: ${{matrix.os}}
+    steps:
+      - name: checkout
+        uses: actions/checkout@v7
+      - name: node
+        uses: actions/setup-node@v7
+        with:
+          node-version: $${matrix.node}}
+  test:
+    needs: build
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Final
+        run: |
+          echo "bye"
+  indep:
+    runs-on: ubuntu-latest
+    steps:
+      - name: env
+        run: |
+          echo "${{inputs.env}}
+   
+   
