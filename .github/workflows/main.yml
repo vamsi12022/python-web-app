@@ -36,6 +36,7 @@ jobs:
         run: npm run build
   end:
     runs-on: ubuntu-latest
+    needs: build
     steps:
       - name: end card
         run: |
