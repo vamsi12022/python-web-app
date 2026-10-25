@@ -1,9 +1,11 @@
 name: matrix and path
+
 on:
   push:
     branches: [main]
     paths:
       - "test/**"
+      - ".github/workflows/test.yaml"   # add this if you want workflow edits to trigger
   workflow_dispatch:
     inputs:
       env:
@@ -12,6 +14,7 @@ on:
         options:
           - dev
           - prod
+
 jobs:
   build:
     strategy:
@@ -19,26 +22,25 @@ jobs:
       matrix:
         os: [ubuntu-latest, windows-latest]
         node: [22, 24]
-    runs-on: ${{matrix.os}}
+    runs-on: ${{ matrix.os }}
     steps:
       - name: checkout
-        uses: actions/checkout@v7
+        uses: actions/checkout@v4
+
       - name: node
-        uses: actions/setup-node@v7
+        uses: actions/setup-node@v4
         with:
-          node-version: $${matrix.node}}
+          node-version: ${{ matrix.node }}
+
   test:
     needs: build
     runs-on: ubuntu-22.04
     steps:
       - name: Final
-        run: |
-          echo "bye"
+        run: echo "bye"
+
   indep:
     runs-on: ubuntu-latest
     steps:
       - name: env
-        run: |
-          echo "${{inputs.env}}
-   
-   
+        run: echo "${{ inputs.env }}"
