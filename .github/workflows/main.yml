@@ -1,6 +1,8 @@
-name: deploy sample
+name: deploy node
 
 on:
+  push:
+    branches: [main]
   workflow_dispatch:
     inputs:
       environments:
@@ -9,12 +11,33 @@ on:
         options:
           - dev
           - prod
-
+permissions:
+  contents: read
+  
 jobs:
-  hello:
+  build:
     runs-on: ubuntu-22.04
 
     steps:
       - name: sample
         run: |
           echo "Hi ${{ inputs.environments }}"
+      - name: checkout source code
+        uses: actions/checkout@v7
+      - name: install node
+        uses: actions/setup-node@v7
+        with:
+          node-version: '24'
+      - name: install deps
+        run: npm cli
+      - name: run tests
+        run: npm test
+      - name: build app
+        run: npm run build
+  end:
+    runs-on: ubuntu-latest
+    steps:
+      - name: end card
+        run: |
+          echo "bye"
+          echo "byeee"
